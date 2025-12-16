@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        jdk 'JDK-21'          // must match Manage Jenkins → Tools
+        jdk 'JDK-21'
         maven 'Maven-3'
     }
 
@@ -14,20 +14,12 @@ pipeline {
             }
         }
 
-        stage('Stop Old App') {
-            steps {
-                bat '''
-                echo Stopping old Spring Boot app if running...
-                taskkill /F /IM java.exe || exit 0
-                '''
-            }
-        }
-
         stage('Run App') {
             steps {
                 bat '''
-                echo Starting Spring Boot app...
-                start "" java -jar target\\JenkinsDemo-0.0.1-SNAPSHOT.jar
+                echo Starting Spring Boot application...
+                cd target
+                java -jar JenkinsDemo-0.0.1-SNAPSHOT.jar
                 '''
             }
         }
